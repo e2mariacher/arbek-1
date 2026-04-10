@@ -12,9 +12,9 @@ import java.util.Base64;
 import java.util.Random;
 
 public class CitationLatine {
-    static String IV = "AAAAAAAAAAAAAAAA";
-    static String plaintext = "test text 124";
-    static String encryptionKey = "0123456789abcdef";
+    static final String IV = "AAAAAAAAAAAAAAAA";
+    static final String plaintext = "test text 124";
+    static final String encryptionKey = "0123456789abcdef";
 
     public static void main(String[] args) {
         System.out.println("Citation Latine java.version: " + System.getProperty("java.version"));
@@ -60,7 +60,7 @@ public class CitationLatine {
             String decrypted = decrypt(decipher, seizeclef);
 
             System.out.println("decrypt:  " + decrypted);
-            if (text.indexOf(" ") < 0) {
+            if (!text.contains(" ")) {
                 System.out.println("decrypt2: " + decrypt(Base64.getDecoder().decode(text), seizeclef));
             }
         } catch (Exception e) {
@@ -70,18 +70,18 @@ public class CitationLatine {
 
     }
 
-    public static String padRight(String s, int n) {
+    public static String padRight(String s) {
         Random rand = new Random();
-        String spadded = "";
+        StringBuilder spadded = new StringBuilder();
         for (int i = 1; i < 20; i++) {
-            spadded = spadded + rand.nextInt(4568797 * i);
+            spadded.append(rand.nextInt(4568797 * i));
         }
-        spadded = "" + rand.nextInt(1223457) + " " + s + " " + spadded;
+        spadded.insert(0, rand.nextInt(1223457) + " " + s + " ");
         return spadded.substring(0, s.length() - (s.length() % 16) + 32);
     }
 
     public static String padRightMod16(String s) {
-        return padRight(s, s.length() - (s.length() % 16) + 16);
+        return padRight(s);
     }
 
 
